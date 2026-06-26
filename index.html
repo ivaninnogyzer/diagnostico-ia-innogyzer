@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagnóstico IA Gratuito — Innogyzer | The AI Sprint Innovation Agency</title>
+<meta name="description" content="Responde 6 preguntas en menos de 4 minutos y recibe una propuesta de IA personalizada para tu empresa. Automatización de leads, agentes conversacionales y más. Partner oficial Anthropic.">
+<meta name="keywords" content="diagnóstico IA, automatización leads, agentes IA, inteligencia artificial empresas, Innogyzer, Anthropic, Claude AI, CRM inteligente">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Innogyzer">
+<meta name="theme-color" content="#0A0A0B">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Diagnóstico IA Gratuito — Innogyzer">
+<meta property="og:description" content="6 preguntas · menos de 4 minutos · propuesta personalizada con IA para tu empresa. Partner oficial Anthropic.">
+<meta property="og:image" content="assets/innogyzer_logo_color.png">
+<meta property="og:locale" content="es_MX">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Diagnóstico IA Gratuito — Innogyzer">
+<meta name="twitter:description" content="6 preguntas · menos de 4 minutos · propuesta personalizada con IA para tu empresa.">
+<meta name="twitter:image" content="assets/innogyzer_logo_color.png">
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="assets/fav_icon_innogyzer.png">
+<link rel="apple-touch-icon" href="assets/fav_icon_innogyzer.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#0A0A0B}
+*{box-sizing:border-box}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes btnPop{0%{transform:scale(1)}45%{transform:scale(1.05) translateY(-2px)}100%{transform:scale(1)}}
+#dwrap input::placeholder,#dwrap textarea::placeholder{color:rgba(255,255,255,.28)}
+
+/* Focus visible a prueba de Forced Colors (Windows High Contrast) */
+#dwrap input,#dwrap select,#dwrap textarea{outline:none}
+#dwrap input:focus-visible,
+#dwrap select:focus-visible,
+#dwrap textarea:focus-visible{
+  outline:2px solid #48B4D8;
+  outline-offset:2px;
+  box-shadow:0 0 0 4px rgba(72,180,216,.22);
+}
+/* Fallback para navegadores que no soportan :focus-visible */
+#dwrap input:focus,#dwrap select:focus,#dwrap textarea:focus{border-color:#48B4D8 !important;box-shadow:0 0 0 3px rgba(72,180,216,.16);background:#141418 !important}
+
+#dwrap select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:34px}
+#dwrap option{background:#18181D;color:#fff}
+
+/* Fallback color-mix para Safari < 16.2 */
+#dwrap [data-opt]:has(input:checked){
+  background:rgba(72,180,216,.10);
+  background:color-mix(in srgb,var(--acc) 15%,transparent);
+  transition:background .18s ease;
+}
+#dwrap [data-opt]:has(input:checked) span{color:#fff;font-weight:500}
+#dwrap [data-opt]:hover{background:#1E1E24}
+#submit-btn:hover{transform:translateY(-2px);box-shadow:0 0 60px rgba(168,204,24,.44) !important}
+#submit-btn:active{transform:translateY(0)}
+#submit-btn.sent{background:linear-gradient(135deg,#6CC09C,#48B4D8);animation:btnPop .38s cubic-bezier(.22,1,.36,1) forwards}
+
+/* Títulos de sección más dominantes */
+#dwrap [data-section] h2{font-size:18px !important;font-weight:800 !important;letter-spacing:-.022em !important}
+
+/* Spinner de carga */
+.spin-svg{animation:spin .75s linear infinite;vertical-align:middle;margin-right:8px}
+
+/* Clase utilitaria screen-reader only */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* Mobile: evitar auto-zoom iOS y mejorar touch targets */
+@media(max-width:640px){
+  #dwrap input,
+  #dwrap select,
+  #dwrap textarea{font-size:16px !important}
+  #dwrap [data-opt]{padding-top:13px;padding-bottom:13px;min-height:44px}
+  #progress-bar>div{height:5px !important}
+}
+@media(max-width:560px){#dwrap .two-col{grid-template-columns:1fr !important}}
+
+/* Respeta preferencia de movimiento reducido */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+}
+
+/* ── Date picker oscuro ── */
+#fecha::-webkit-calendar-picker-indicator{
+  filter:invert(.7) brightness(1.4);
+  cursor:pointer;
+  padding:2px;
+  border-radius:4px;
+  opacity:.7;
+}
+#fecha::-webkit-calendar-picker-indicator:hover{opacity:1}
+
+/* ── Wizard: el JS controla display directamente ── */
+[data-section]{display:none}
+
+/* ── Botones de navegación del wizard ── */
+.wiz-btn{font-family:'Inter',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:999px;padding:12px 28px;cursor:pointer;transition:transform .12s,box-shadow .2s,opacity .2s;line-height:1}
+.wiz-btn:disabled{opacity:.4;cursor:default}
+.wiz-btn:hover:not(:disabled){transform:translateY(-1px)}
+.wiz-btn:active:not(:disabled){transform:translateY(0)}
+.wiz-btn-prev{color:rgba(255,255,255,.80);background:rgba(255,255,255,.08);border:1px solid #2A2A31}
+.wiz-btn-prev:hover:not(:disabled){background:rgba(255,255,255,.13)}
+@media(max-width:560px){.wiz-btn{padding:11px 20px;font-size:13px}}
+</style>
+</head>
+<body>
+<div id="dwrap" style="--bd:#2A2A31;--card:#16161A;--fg-1:#fff;--fg-2:rgba(255,255,255,.80);--fg-3:rgba(255,255,255,.52);--fg-4:rgba(255,255,255,.34);min-height:100vh;background:radial-gradient(125% 70% at 50% 0%,#171722 0%,#0A0A0B 55%);color:var(--fg-1);font-family:'Inter',system-ui,-apple-system,sans-serif;letter-spacing:-.005em;padding-bottom:64px;-webkit-font-smoothing:antialiased">
+
+  <header style="position:sticky;top:0;z-index:100;background:rgba(11,11,13,.72);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);border-bottom:1px solid var(--bd)">
+    <div style="max-width:800px;margin:0 auto;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+      <img src="assets/innogyzer_logo_color.png" alt="Innogyzer" style="height:28px;display:block;filter:drop-shadow(0 1px 6px rgba(0,0,0,.55))">
+      <div style="font-size:11px;font-weight:500;color:var(--fg-3);text-align:right;letter-spacing:.01em">The AI Sprint Innovation Agency</div>
+    </div>
+    <div style="max-width:800px;margin:0 auto;padding:0 22px 12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <span style="font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-4)">Progreso del formulario</span>
+        <span id="progress-label" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+              style="font-size:10.5px;font-weight:500;color:var(--fg-3)">0 / 6 &middot; 0%</span>
+      </div>
+      <div id="progress-bar" style="display:flex;gap:6px"></div>
+    </div>
+  </header>
+
+  <div style="text-align:center;padding:54px 22px 40px;position:relative">
+    <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:var(--fg-2);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:6px 15px;border-radius:999px;margin-bottom:20px">Diagnóstico gratuito &middot; 5 min</div>
+    <h1 style="font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(30px,5.4vw,52px);line-height:1.06;letter-spacing:-.035em;margin:0 0 14px;background:linear-gradient(180deg,#fff 0%,#fff 42%,#8c8c95 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent">Más leads calificados, menos<br>trabajo manual — construimos tu<br>sistema de <em style="font-style:normal;-webkit-text-fill-color:#48B4D8;color:#48B4D8">IA</em> en semanas</h1>
+    <p style="font-size:14.5px;color:var(--fg-3);max-width:540px;margin:0 auto;line-height:1.65">Más conversiones · Seguimiento automático · Mensajes que convierten<br>Cuéntanos tu situación en 5 minutos y te preparamos una propuesta personalizada — sin compromiso.</p>
+  </div>
+
+  <main style="max-width:800px;margin:0 auto;padding:8px 22px 0">
+
+    <div id="alert-box" role="alert" aria-live="assertive" style="display:none"></div>
+
+    <form id="dform" novalidate>
+
+      <!-- Honeypot anti-bot -->
+      <div style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+        <label for="website">Sitio web (no rellenar)</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <!-- 1. DATOS DE CONTACTO -->
+      <div data-section style="--acc:#D8408A;background:var(--card);border:1px solid var(--bd);border-radius:20px;overflow:hidden;margin-bottom:18px;box-shadow:0 1px 2px rgba(0,0,0,.35);animation:fadeUp .5s cubic-bezier(.22,1,.36,1) both;animation-delay:.04s">
+        <div style="height:2px;background:var(--acc)"></div>
+        <div style="display:flex;align-items:center;gap:14px;padding:17px 22px;border-bottom:1px solid var(--bd)">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#0A0A0B;background:var(--acc);min-width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:999px;flex-shrink:0" aria-hidden="true">1</div>
+          <div><h2 style="font-size:17px;font-weight:700;letter-spacing:-.01em;color:var(--fg-1);margin:0">¿Con quién hablamos?</h2><div style="font-size:12.5px;color:var(--fg-3);margin-top:3px">Para enviarte una propuesta lista — sin preguntas de más.</div></div>
+        </div>
+        <div style="padding:22px">
+          <div class="two-col" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+            <div>
+              <label for="empresa" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">¿En qué empresa estás? *</label>
+              <input type="text" id="empresa" name="empresa" placeholder="Nombre de tu empresa"
+                     required aria-required="true" autocomplete="organization" maxlength="120"
+                     style="width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none;transition:border-color .15s,box-shadow .15s">
+            </div>
+            <div>
+              <label for="fecha" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">Fecha</label>
+              <input type="date" id="fecha" name="fecha"
+                     aria-label="Fecha de diagnóstico"
+                     style="width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;cursor:pointer;outline:none;transition:border-color .15s,box-shadow .15s;color-scheme:dark">
+            </div>
+          </div>
+          <div class="two-col" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+            <div>
+              <label for="nombre" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">Tu nombre y puesto *</label>
+              <input type="text" id="nombre" name="nombre" placeholder="Ana Martínez — Directora Comercial"
+                     required aria-required="true" autocomplete="name" maxlength="120"
+                     style="width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none;transition:border-color .15s,box-shadow .15s">
+            </div>
+            <div>
+              <label for="email" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">Correo electrónico *</label>
+              <input type="email" id="email" name="email" placeholder="tu@empresa.com"
+                     required aria-required="true" autocomplete="email"
+                     style="width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none;transition:border-color .15s,box-shadow .15s">
+            </div>
+          </div>
+          <div class="two-col" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div>
+              <label for="whatsapp" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">WhatsApp / Teléfono</label>
+              <input type="tel" id="whatsapp" name="whatsapp" placeholder="+52 55 0000 0000"
+                     autocomplete="tel" maxlength="25"
+                     style="width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none;transition:border-color .15s,box-shadow .15s">
+            </div>
+            <div>
+              <label for="industria" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">Industria / Sector</label>
+              <select id="industria" name="industria" aria-label="Industria o sector de tu empresa"
+                      style="width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none;transition:border-color .15s,box-shadow .15s">
+                <option value="">Selecciona...</option>
+                <option>BPO / Contact Center</option>
+                <option>Banca y Finanzas</option>
+                <option>Seguros</option>
+                <option>Retail y E-commerce</option>
+                <option>Salud</option>
+                <option>Educación</option>
+                <option>Tecnología / SaaS</option>
+                <option>Manufactura</option>
+                <option>Agencia de marketing</option>
+                <option>Otro</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. SITUACIÓN ACTUAL -->
+      <div data-section style="--acc:#FCB454;background:var(--card);border:1px solid var(--bd);border-radius:20px;overflow:hidden;margin-bottom:18px;box-shadow:0 1px 2px rgba(0,0,0,.35);animation:fadeUp .5s cubic-bezier(.22,1,.36,1) both;animation-delay:.08s">
+        <div style="height:2px;background:var(--acc)"></div>
+        <div style="display:flex;align-items:center;gap:14px;padding:17px 22px;border-bottom:1px solid var(--bd)">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#0A0A0B;background:var(--acc);min-width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:999px;flex-shrink:0" aria-hidden="true">2</div>
+          <div><h2 style="font-size:17px;font-weight:700;letter-spacing:-.01em;color:var(--fg-1);margin:0">¿Cómo están generando leads hoy?</h2><div style="font-size:12.5px;color:var(--fg-3);margin-top:3px">Cuanto más nos cuentes, más precisa será tu propuesta.</div></div>
+        </div>
+        <div style="padding:22px">
+          <div style="margin-bottom:18px">
+            <fieldset style="border:1px solid var(--bd);border-radius:14px;overflow:hidden;background:#0E0E12;padding:0;margin:0">
+              <legend style="display:block;width:100%;padding:12px 16px;font-size:12.5px;font-weight:600;color:var(--fg-2);background:#121216;float:left">¿Cómo generan leads hoy? <span class="sr-only">(selecciona todos los que apliquen)</span></legend>
+              <div style="clear:both">
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="gen_leads[]" value="pauta_digital" aria-label="Pauta digital (Meta Ads, Google Ads, TikTok Ads)" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Pauta digital (Meta Ads, Google Ads, TikTok Ads)</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="gen_leads[]" value="equipo_comercial" aria-label="Equipo comercial / prospección manual" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Equipo comercial / prospección manual</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="gen_leads[]" value="inbound_organico" aria-label="Inbound / contenido orgánico (SEO, redes sociales)" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Inbound / contenido orgánico (SEO, redes sociales)</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="gen_leads[]" value="eventos_webinars" aria-label="Eventos, webinars o alianzas" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Eventos, webinars o alianzas</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="gen_leads[]" value="base_datos_propia" aria-label="Base de datos propia (email, WhatsApp, CRM)" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Base de datos propia (email, WhatsApp, CRM)</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="gen_leads[]" value="referidos" aria-label="Referidos / boca en boca" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Referidos / boca en boca</span></label>
+              </div>
+            </fieldset>
+          </div>
+          <div style="margin-bottom:18px">
+            <fieldset style="border:1px solid var(--bd);border-radius:14px;overflow:hidden;background:#0E0E12;padding:0;margin:0">
+              <legend style="display:block;width:100%;padding:12px 16px;font-size:12.5px;font-weight:600;color:var(--fg-2);background:#121216;float:left">¿Qué tan automatizados están sus flujos de marketing y ventas?</legend>
+              <div style="clear:both">
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="radio" name="nivel_automatizacion" value="nada" aria-label="Nada — todo es manual" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Nada — todo es manual</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="radio" name="nivel_automatizacion" value="algo" aria-label="Algo — tenemos algunos correos o secuencias básicas" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Algo — tenemos algunos correos o secuencias básicas</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="radio" name="nivel_automatizacion" value="moderado" aria-label="Moderado — usamos CRM y flujos, pero no con IA" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Moderado — usamos CRM y flujos, pero no con IA</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="radio" name="nivel_automatizacion" value="avanzado" aria-label="Avanzado — ya automatizamos bastante, queremos el siguiente nivel" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Avanzado — ya automatizamos bastante, queremos el siguiente nivel</span></label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="two-col" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+            <div>
+              <label for="vol_leads" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">¿Cuántos leads generan al mes? (aprox.)</label>
+              <select id="vol_leads" name="vol_leads" aria-label="Volumen de leads generados al mes"
+                      style="width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none">
+                <option value="">Selecciona...</option>
+                <option>Menos de 100</option>
+                <option>100 – 500</option>
+                <option>500 – 2,000</option>
+                <option>2,000 – 10,000</option>
+                <option>Más de 10,000</option>
+              </select>
+            </div>
+            <div>
+              <label for="tasa_conversion" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">Tasa de conversión actual (aprox.)</label>
+              <select id="tasa_conversion" name="tasa_conversion" aria-label="Tasa de conversión actual aproximada"
+                      style="width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none">
+                <option value="">Selecciona...</option>
+                <option>Menos del 1%</option>
+                <option>1% – 3%</option>
+                <option>3% – 7%</option>
+                <option>Más del 7%</option>
+                <option>No la medimos</option>
+              </select>
+            </div>
+          </div>
+          <div class="two-col" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div>
+              <label for="herramientas_actuales" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">Herramientas actuales (CRM, email, pauta...)</label>
+              <input type="text" id="herramientas_actuales" name="herramientas_actuales" placeholder="HubSpot, Mailchimp, Meta Ads..."
+                     autocomplete="off" maxlength="300"
+                     style="width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none;transition:border-color .15s,box-shadow .15s">
+            </div>
+            <div>
+              <label for="inversion_pauta" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">Inversión mensual en publicidad digital (aprox.)</label>
+              <select id="inversion_pauta" name="inversion_pauta" aria-label="Inversión mensual en publicidad digital aproximada"
+                      style="width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none">
+                <option value="">Selecciona...</option>
+                <option>Menos de $10,000 MXN</option>
+                <option>$10,000 – $50,000 MXN</option>
+                <option>$50,000 – $200,000 MXN</option>
+                <option>Más de $200,000 MXN</option>
+                <option>No invertimos en pauta</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. RETOS Y OPORTUNIDADES -->
+      <div data-section style="--acc:#A8CC18;background:var(--card);border:1px solid var(--bd);border-radius:20px;overflow:hidden;margin-bottom:18px;box-shadow:0 1px 2px rgba(0,0,0,.35);animation:fadeUp .5s cubic-bezier(.22,1,.36,1) both;animation-delay:.12s">
+        <div style="height:2px;background:var(--acc)"></div>
+        <div style="display:flex;align-items:center;gap:14px;padding:17px 22px;border-bottom:1px solid var(--bd)">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#0A0A0B;background:var(--acc);min-width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:999px;flex-shrink:0" aria-hidden="true">3</div>
+          <div><h2 style="font-size:17px;font-weight:700;letter-spacing:-.01em;color:var(--fg-1);margin:0">¿Qué está frenando tus resultados?</h2><div style="font-size:12.5px;color:var(--fg-3);margin-top:3px">Identifica el problema y la IA hará el resto.</div></div>
+        </div>
+        <div style="padding:22px">
+          <div style="margin-bottom:18px">
+            <fieldset style="border:1px solid var(--bd);border-radius:14px;overflow:hidden;background:#0E0E12;padding:0;margin:0">
+              <div style="display:flex;justify-content:space-between;align-items:center;background:#121216">
+                <legend style="display:block;padding:12px 16px;font-size:12.5px;font-weight:600;color:var(--fg-2);float:left">¿Cuál es el mayor problema en tu proceso de leads hoy? <span class="sr-only">(marca los 3 más importantes)</span>(marca los 3 más importantes)</legend>
+                <span id="problemas-counter" aria-live="polite" style="font-size:11px;font-weight:600;color:var(--fg-3);padding:12px 16px;white-space:nowrap">0/3</span>
+              </div>
+              <div style="clear:both">
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="problemas[]" value="poco_volumen" aria-label="Generamos pocos leads — necesitamos más volumen" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Generamos pocos leads — necesitamos más volumen</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="problemas[]" value="baja_calidad" aria-label="Los leads que llegan no son de calidad o no califican" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Los leads que llegan no son de calidad o no califican</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="problemas[]" value="seguimiento_lento" aria-label="El seguimiento es lento o inconsistente" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">El seguimiento es lento o inconsistente</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="problemas[]" value="baja_conversion" aria-label="Tenemos leads pero no los convertimos bien" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Tenemos leads pero no los convertimos bien</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="problemas[]" value="no_saber_creativos" aria-label="No sabemos qué mensajes o creativos funcionan antes de invertir" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">No sabemos qué mensajes o creativos funcionan antes de invertir</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="problemas[]" value="sin_personalizacion" aria-label="Cada lead recibe el mismo mensaje — sin personalización" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Cada lead recibe el mismo mensaje — sin personalización</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="problemas[]" value="sin_visibilidad" aria-label="No tenemos visibilidad de qué canal genera los mejores resultados" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">No tenemos visibilidad de qué canal genera los mejores resultados</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="problemas[]" value="mkt_ventas_desconectado" aria-label="El proceso entre marketing y ventas está desconectado" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">El proceso entre marketing y ventas está desconectado</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="problemas[]" value="respuesta_lenta" aria-label="Perdemos leads por falta de respuesta rápida" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Perdemos leads por falta de respuesta rápida</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="problemas[]" value="base_no_aprovechada" aria-label="No aprovechamos la base de datos que ya tenemos" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">No aprovechamos la base de datos que ya tenemos</span></label>
+              </div>
+            </fieldset>
+          </div>
+          <div style="margin-bottom:18px">
+            <fieldset style="border:1px solid var(--bd);border-radius:14px;overflow:hidden;background:#0E0E12;padding:0;margin:0">
+              <legend style="display:block;width:100%;padding:12px 16px;font-size:12.5px;font-weight:600;color:var(--fg-2);background:#121216;float:left">¿Qué oportunidad ves con IA que hoy no estás aprovechando?</legend>
+              <div style="clear:both">
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="oportunidades[]" value="personalizacion_mensajes" aria-label="Personalizar mensajes y creativos para cada segmento o cliente" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Personalizar mensajes y creativos para cada segmento o cliente</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="oportunidades[]" value="lead_scoring" aria-label="Calificar y priorizar leads automáticamente con IA" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Calificar y priorizar leads automáticamente con IA</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="oportunidades[]" value="agente_conversacional" aria-label="Responder leads al instante con agentes conversacionales (chat / voz / WhatsApp)" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Responder leads al instante con agentes conversacionales (chat / voz / WhatsApp)</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="oportunidades[]" value="nurturing_inteligente" aria-label="Dar seguimiento automático a cada lead según cómo se comporta — sin hacerlo a mano" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Dar seguimiento automático a cada lead según cómo se comporta — sin hacerlo a mano</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="oportunidades[]" value="validacion_creativos" aria-label="Probar y validar mensajes o creativos antes de invertir en pauta" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Probar y validar mensajes o creativos antes de invertir en pauta</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="oportunidades[]" value="prediccion_cierre" aria-label="Predecir qué leads tienen más probabilidad de cerrar" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Predecir qué leads tienen más probabilidad de cerrar</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="oportunidades[]" value="optimizacion_pauta" aria-label="Optimizar el presupuesto de pauta en tiempo real con IA" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Optimizar el presupuesto de pauta en tiempo real con IA</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="oportunidades[]" value="reactivacion_base" aria-label="Recuperar leads inactivos o bases de datos que ya no se trabajan" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Recuperar leads inactivos o bases de datos que ya no se trabajan</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="oportunidades[]" value="personalizacion_web" aria-label="Personalizar la experiencia en web o landing pages según el perfil del visitante" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Personalizar la experiencia en web o landing pages según el perfil del visitante</span></label>
+              </div>
+            </fieldset>
+          </div>
+          <div>
+            <label for="vision_propia" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">¿Qué solución o resultado tienes en mente? Descríbelo con tus propias palabras.</label>
+            <textarea id="vision_propia" name="vision_propia" maxlength="2000"
+                      placeholder="Ej: Quiero que cuando alguien llene un formulario en mi web, un agente de IA le responda en menos de 1 minuto por WhatsApp y lo califique automáticamente antes de pasarlo al equipo de ventas..."
+                      style="width:100%;padding:12px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none;min-height:96px;resize:vertical;line-height:1.55;transition:border-color .15s,box-shadow .15s"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. SOLUCIÓN EN MENTE -->
+      <div data-section style="--acc:#48B4D8;background:var(--card);border:1px solid var(--bd);border-radius:20px;overflow:hidden;margin-bottom:18px;box-shadow:0 1px 2px rgba(0,0,0,.35);animation:fadeUp .5s cubic-bezier(.22,1,.36,1) both;animation-delay:.16s">
+        <div style="height:2px;background:var(--acc)"></div>
+        <div style="display:flex;align-items:center;gap:14px;padding:17px 22px;border-bottom:1px solid var(--bd)">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#0A0A0B;background:var(--acc);min-width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:999px;flex-shrink:0" aria-hidden="true">4</div>
+          <div><h2 style="font-size:17px;font-weight:700;letter-spacing:-.01em;color:var(--fg-1);margin:0">¿Qué quieres que haga la IA por ti?</h2><div style="font-size:12.5px;color:var(--fg-3);margin-top:3px">No necesitas saberlo todo — te orientamos con lo que nos cuentes.</div></div>
+        </div>
+        <div style="padding:22px">
+          <div style="margin-bottom:18px">
+            <fieldset style="border:1px solid var(--bd);border-radius:14px;overflow:hidden;background:#0E0E12;padding:0;margin:0">
+              <legend style="display:block;width:100%;padding:12px 16px;font-size:12.5px;font-weight:600;color:var(--fg-2);background:#121216;float:left">¿Qué tipo de solución estás buscando?</legend>
+              <div style="clear:both">
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="tipo_solucion[]" value="agente_leads" aria-label="Un agente de IA que responda y califique leads automáticamente (chat, voz o WhatsApp)" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Un agente de IA que responda y califique leads automáticamente (chat, voz o WhatsApp)</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="tipo_solucion[]" value="nurturing_flujos" aria-label="Flujos de seguimiento inteligentes y personalizados por segmento o comportamiento" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Flujos de seguimiento inteligentes y personalizados por segmento o comportamiento</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="tipo_solucion[]" value="hiperpersonalizacion_pauta" aria-label="Personalización avanzada de campañas de pauta digital con IA" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Personalización avanzada de campañas de pauta digital con IA</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="tipo_solucion[]" value="lead_scoring_crm" aria-label="Que la IA me diga qué leads priorizar, integrado al CRM" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Que la IA me diga qué leads priorizar, integrado al CRM</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="tipo_solucion[]" value="dashboard_inteligencia" aria-label="Dashboard de inteligencia de clientes y predicción de conversión" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Dashboard de inteligencia de clientes y predicción de conversión</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="tipo_solucion[]" value="validacion_creativos" aria-label="Validación de mensajes y creativos con IA antes de lanzar campañas" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Validación de mensajes y creativos con IA antes de lanzar campañas</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="tipo_solucion[]" value="reactivacion_bd" aria-label="Recuperación y reactivación de base de datos inactiva" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Recuperación y reactivación de base de datos inactiva</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="tipo_solucion[]" value="integral" aria-label="Una solución integral que conecte generación, calificación y cierre de leads" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Una solución integral que conecte generación, calificación y cierre de leads</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="tipo_solucion[]" value="no_definido" aria-label="Todavía no lo tengo claro — necesito orientación" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Todavía no lo tengo claro — necesito orientación</span></label>
+              </div>
+            </fieldset>
+          </div>
+          <div style="margin-bottom:18px">
+            <fieldset style="border:1px solid var(--bd);border-radius:14px;overflow:hidden;background:#0E0E12;padding:0;margin:0">
+              <legend style="display:block;width:100%;padding:12px 16px;font-size:12.5px;font-weight:600;color:var(--fg-2);background:#121216;float:left">¿Con qué plataformas necesita integrarse la solución?</legend>
+              <div style="clear:both">
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="integraciones[]" value="crm" aria-label="CRM propio / HubSpot / Salesforce" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">CRM propio / HubSpot / Salesforce</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="integraciones[]" value="meta_google_ads" aria-label="Meta Ads / Google Ads / TikTok Ads" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Meta Ads / Google Ads / TikTok Ads</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="integraciones[]" value="whatsapp_api" aria-label="WhatsApp Business API" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">WhatsApp Business API</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="integraciones[]" value="email_marketing" aria-label="Plataforma de email marketing (Mailchimp, ActiveCampaign, etc.)" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Plataforma de email marketing (Mailchimp, ActiveCampaign, etc.)</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="integraciones[]" value="contact_center" aria-label="Plataforma de contact center (Genesys, Avaya, etc.)" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Plataforma de contact center (Genesys, Avaya, etc.)</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="integraciones[]" value="workspace" aria-label="Google Workspace / Microsoft 365" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Google Workspace / Microsoft 365</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="integraciones[]" value="bd_propias" aria-label="Bases de datos propias (SQL, BigQuery, etc.)" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Bases de datos propias (SQL, BigQuery, etc.)</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="integraciones[]" value="por_definir" aria-label="No lo hemos definido todavía" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">No lo hemos definido todavía</span></label>
+              </div>
+            </fieldset>
+          </div>
+          <div style="margin-bottom:18px">
+            <fieldset style="border:1px solid var(--bd);border-radius:14px;overflow:hidden;background:#0E0E12;padding:0;margin:0">
+              <legend style="display:block;width:100%;padding:12px 16px;font-size:12.5px;font-weight:600;color:var(--fg-2);background:#121216;float:left">¿Cómo medirán el éxito? (KPIs más importantes)</legend>
+              <div style="clear:both">
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="kpis[]" value="vol_leads_calificados" aria-label="Más leads que realmente pueden comprar — no solo contactos" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Más leads que realmente pueden comprar — no solo contactos</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="kpis[]" value="cpl_cpa" aria-label="Gastar menos para conseguir cada cliente nuevo (costo por lead / por venta)" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Gastar menos para conseguir cada cliente nuevo (costo por lead / por venta)</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="kpis[]" value="tasa_conversion" aria-label="Mejora en tasa de conversión de lead a cliente" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Mejora en tasa de conversión de lead a cliente</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="kpis[]" value="tiempo_respuesta" aria-label="Reducción en tiempo de respuesta y seguimiento" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Reducción en tiempo de respuesta y seguimiento</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="kpis[]" value="roas" aria-label="Incremento en retorno de inversión de campañas (ROAS)" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Incremento en retorno de inversión de campañas (ROAS)</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="kpis[]" value="nurturing_engagement" aria-label="Tasa de apertura / respuesta en flujos de seguimiento automático" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Tasa de apertura / respuesta en flujos de seguimiento automático</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="kpis[]" value="reactivacion" aria-label="Retención y reactivación de base de datos" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Retención y reactivación de base de datos</span></label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="two-col" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div>
+              <label for="rango_inversion" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">Rango de inversión estimado</label>
+              <select id="rango_inversion" name="rango_inversion" aria-label="Rango de inversión estimado para la solución"
+                      style="width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none">
+                <option value="">Selecciona...</option>
+                <option>Menos de $50,000 MXN</option>
+                <option>$50,000 – $150,000 MXN</option>
+                <option>$150,000 – $500,000 MXN</option>
+                <option>Más de $500,000 MXN</option>
+                <option>Por definir según propuesta</option>
+              </select>
+            </div>
+            <div>
+              <label for="horizonte" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">¿Cuándo quieren tenerla operando?</label>
+              <select id="horizonte" name="horizonte" aria-label="Horizonte de tiempo para tener la solución operando"
+                      style="width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none">
+                <option value="">Selecciona...</option>
+                <option>Este mes</option>
+                <option>En 1 a 3 meses</option>
+                <option>En 3 a 6 meses</option>
+                <option>Más de 6 meses</option>
+                <option>Depende de la propuesta</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. SIGUIENTES PASOS -->
+      <div data-section style="--acc:#2490CC;background:var(--card);border:1px solid var(--bd);border-radius:20px;overflow:hidden;margin-bottom:18px;box-shadow:0 1px 2px rgba(0,0,0,.35);animation:fadeUp .5s cubic-bezier(.22,1,.36,1) both;animation-delay:.2s">
+        <div style="height:2px;background:var(--acc)"></div>
+        <div style="display:flex;align-items:center;gap:14px;padding:17px 22px;border-bottom:1px solid var(--bd)">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#fff;background:var(--acc);min-width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:999px;flex-shrink:0" aria-hidden="true">5</div>
+          <div><h2 style="font-size:17px;font-weight:700;letter-spacing:-.01em;color:var(--fg-1);margin:0">¿Cómo quieres que avancemos?</h2><div style="font-size:12.5px;color:var(--fg-3);margin-top:3px">Elige el siguiente paso que más te convenga — sin presiones.</div></div>
+        </div>
+        <div style="padding:22px">
+          <div style="margin-bottom:18px">
+            <fieldset style="border:1px solid var(--bd);border-radius:14px;overflow:hidden;background:#0E0E12;padding:0;margin:0">
+              <legend style="display:block;width:100%;padding:12px 16px;font-size:12.5px;font-weight:600;color:var(--fg-2);background:#121216;float:left">¿Qué tan urgente es para ustedes avanzar?</legend>
+              <div style="clear:both">
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="radio" name="urgencia" value="alta" aria-label="Alta urgencia — queremos empezar este mes" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">🔴 Alta — queremos empezar este mes</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="radio" name="urgencia" value="media" aria-label="Media urgencia — próximo trimestre, en fase de evaluación" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">🟡 Media — próximo trimestre, en fase de evaluación</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="radio" name="urgencia" value="baja" aria-label="Explorando — todavía estamos definiendo qué queremos" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">🟢 Explorando — todavía estamos definiendo qué queremos</span></label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="two-col" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px">
+            <div>
+              <label for="decisor" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">¿Quién toma la decisión final?</label>
+              <input type="text" id="decisor" name="decisor" placeholder="Ej: Director General, CMO..."
+                     autocomplete="off" maxlength="120"
+                     style="width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none;transition:border-color .15s,box-shadow .15s">
+            </div>
+            <div>
+              <label for="otros_proveedores" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">¿Evalúan otros proveedores?</label>
+              <select id="otros_proveedores" name="otros_proveedores" aria-label="¿Están evaluando otros proveedores además de Innogyzer?"
+                      style="width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none">
+                <option value="">Selecciona...</option>
+                <option>No, solo evaluamos a Innogyzer</option>
+                <option>Sí, 1 o 2 opciones más</option>
+                <option>Sí, 3 o más opciones</option>
+                <option>Todavía no hemos buscado otros</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-bottom:18px">
+            <fieldset style="border:1px solid var(--bd);border-radius:14px;overflow:hidden;background:#0E0E12;padding:0;margin:0">
+              <legend style="display:block;width:100%;padding:12px 16px;font-size:12.5px;font-weight:600;color:var(--fg-2);background:#121216;float:left">¿Cuál sería el mejor siguiente paso?</legend>
+              <div style="clear:both">
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="radio" name="siguiente_paso" value="diagnostico" aria-label="Sesión de diagnóstico gratuita (45 min) — exploramos opciones juntos" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Sesión de diagnóstico gratuita (45 min) — exploramos opciones juntos</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="radio" name="siguiente_paso" value="propuesta" aria-label="Recibir una propuesta técnica y económica personalizada" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Recibir una propuesta técnica y económica personalizada</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="radio" name="siguiente_paso" value="demo" aria-label="Ver una demo de cómo funcionaría la solución" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Ver una demo de cómo funcionaría la solución</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:11px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="radio" name="siguiente_paso" value="directivos" aria-label="Presentación para el equipo directivo" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.45;color:var(--fg-2)">Presentación para el equipo directivo</span></label>
+              </div>
+            </fieldset>
+          </div>
+          <div style="margin-bottom:18px">
+            <label for="notas_adicionales" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">¿Algo más que quieras que sepamos antes de preparar tu propuesta?</label>
+            <textarea id="notas_adicionales" name="notas_adicionales" maxlength="2000"
+                      placeholder="Ej: Tenemos una campaña grande en septiembre y necesitamos la solución lista para agosto. También usamos un CRM a medida que no es HubSpot..."
+                      style="width:100%;padding:12px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none;min-height:96px;resize:vertical;line-height:1.55;transition:border-color .15s,box-shadow .15s"></textarea>
+          </div>
+          <div>
+            <label for="fuente" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:7px">¿Cómo llegaste a conocer a Innogyzer?</label>
+            <select id="fuente" name="fuente" aria-label="¿Cómo llegaste a conocer a Innogyzer?"
+                    style="width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none">
+              <option value="">Selecciona...</option>
+              <option>LinkedIn</option>
+              <option>Referido / recomendación</option>
+              <option>Google</option>
+              <option>Evento o conferencia</option>
+              <option>Ya los conocía</option>
+              <option>Otro</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. PARTNER ANTHROPIC -->
+      <div data-section style="--acc:#6CC09C;background:var(--card);border:1px solid var(--bd);border-radius:20px;overflow:hidden;margin-bottom:18px;box-shadow:0 0 0 1px rgba(108,192,156,.18),0 1px 2px rgba(0,0,0,.35);animation:fadeUp .5s cubic-bezier(.22,1,.36,1) both;animation-delay:.24s">
+        <div style="height:2px;background:linear-gradient(90deg,#48B4D8,#6CC09C,#A8CC18)"></div>
+        <div style="display:flex;align-items:center;gap:14px;padding:17px 22px;border-bottom:1px solid var(--bd)">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:#0A0A0B;background:var(--acc);min-width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:999px;flex-shrink:0" aria-hidden="true">6</div>
+          <div style="flex:1"><h2 style="font-size:17px;font-weight:700;letter-spacing:-.01em;color:var(--fg-1);margin:0">IA de nivel empresarial — sin costo adicional</h2><div style="font-size:12.5px;color:var(--fg-3);margin-top:3px">Partner oficial de Anthropic: tus datos son tuyos, siempre.</div></div>
+          <div style="display:flex;align-items:center;gap:6px;background:rgba(108,192,156,.12);border:1px solid rgba(108,192,156,.34);color:#cfeede;font-size:10px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:6px 11px;border-radius:999px;white-space:nowrap;flex-shrink:0">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" fill="rgba(207,238,222,0.95)"/></svg>
+            Partner oficial de Anthropic
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:16px 22px;background:rgba(108,192,156,.06);border-bottom:1px solid var(--bd);font-size:13px;line-height:1.6;color:var(--fg-2)">
+          <div style="font-size:18px;color:#6CC09C;flex-shrink:0;line-height:1.2" aria-hidden="true">✦</div>
+          <div>
+            <strong style="color:var(--fg-1)">Como Partner oficial de Anthropic, construimos sobre la IA más segura del mercado.</strong> Lo que eso significa para ti:
+            <ul style="margin:8px 0 0 0;padding-left:18px;color:var(--fg-2)">
+              <li style="margin-bottom:4px">Tus datos nunca entrenan modelos de IA — son tuyos.</li>
+              <li style="margin-bottom:4px">Licencias empresariales con precios preferenciales.</li>
+              <li style="margin-bottom:4px">Soporte directo del fabricante — sin intermediarios.</li>
+            </ul>
+            <p style="margin:8px 0 0 0;color:var(--fg-3)">Tú defines el objetivo; nosotros hacemos que funcione.</p>
+          </div>
+        </div>
+        <div style="padding:22px">
+          <div style="margin-bottom:18px">
+            <fieldset style="border:1px solid var(--bd);border-radius:14px;overflow:hidden;background:#0E0E12;padding:0;margin:0">
+              <legend style="display:block;width:100%;padding:12px 16px;font-size:12.5px;font-weight:600;color:var(--fg-2);background:#121216;float:left">¿Qué tipo de apoyo buscas? (puedes marcar ambos)</legend>
+              <div style="clear:both">
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:12px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="tipo_apoyo[]" value="licencias" aria-label="Licencias de IA para mi equipo" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.5;color:var(--fg-2)"><strong style="color:var(--fg-1)">Licencias de IA para mi equipo</strong> — acceso a Claude (u otra herramienta) para que mi gente la use directamente en su día a día. Innogyzer gestiona las licencias, la activación y la capacitación.</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:12px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="tipo_apoyo[]" value="solucion" aria-label="Una solución implementada y operando" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.5;color:var(--fg-2)"><strong style="color:var(--fg-1)">Una solución implementada y operando</strong> — que Innogyzer construya, integre y ponga a funcionar la solución (agente, flujo, automatización) en mis sistemas. Yo recibo el resultado funcionando.</span></label>
+              <label data-opt style="display:flex;gap:11px;align-items:flex-start;padding:12px 16px;cursor:pointer;border-top:1px solid var(--bd);transition:background .14s"><input type="checkbox" name="tipo_apoyo[]" value="no_seguro" aria-label="No estoy seguro — quiero que me orienten sobre qué me conviene" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--acc);cursor:pointer"><span style="font-size:13.5px;line-height:1.5;color:var(--fg-2)">No estoy seguro — quiero que me orienten sobre qué me conviene</span></label>
+              </div>
+            </fieldset>
+          </div>
+          <div style="margin-bottom:18px">
+            <label for="ia_experiencia_actual" style="display:block;font-size:12px;font-weight:600;color:var(--fg-2);margin-bottom:5px">¿Ya usan o conocen alguna herramienta de IA en tu empresa? (opcional)</label>
+            <div style="font-size:11.5px;color:var(--fg-4);margin-bottom:8px;font-style:italic">Solo para entender tu punto de partida — no necesitas conocer ninguna para trabajar con nosotros.</div>
+            <select id="ia_experiencia_actual" name="ia_experiencia_actual" aria-label="Experiencia actual con herramientas de IA en tu empresa"
+                    style="width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--fg-1);background:#101013;outline:none">
+              <option value="">Selecciona...</option>
+              <option value="ninguna">No usamos ninguna todavía — partimos de cero</option>
+              <option value="exploramos_chat">Hemos probado herramientas de chat (ChatGPT, Claude, Gemini)</option>
+              <option value="uso_informal">El equipo las usa de forma informal, sin proceso</option>
+              <option value="proyecto_activo">Ya tenemos algún proyecto o flujo con IA en marcha</option>
+              <option value="licencias_activas">Tenemos licencias empresariales activas de alguna IA</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:9px;background:rgba(72,180,216,.06);border:1px solid var(--bd);border-radius:12px;padding:12px 14px;font-size:11.5px;color:var(--fg-3);line-height:1.55;margin-bottom:24px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:1px" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" fill="#48B4D8"/></svg>
+            Tu información es confidencial — nunca la compartimos ni se usa para entrenar IA. Lo garantizamos como Partner oficial de Anthropic.
+          </div>
+          <div style="text-align:center;padding-bottom:6px">
+            <button id="submit-btn" type="submit" style="font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#0A0A0B;background:linear-gradient(135deg,#A8CC18,#6CC09C);border:none;border-radius:999px;padding:15px 46px;cursor:pointer;box-shadow:0 0 42px rgba(168,204,24,.28);transition:transform .12s,box-shadow .2s,opacity .2s">Quiero mi propuesta personalizada →</button>
+            <div style="font-size:11.5px;color:var(--fg-4);margin-top:10px">Respuesta en menos de 24 horas · Sin compromiso</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navegación wizard -->
+      <div id="wizard-nav" style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:18px 0 8px;gap:8px">
+        <div style="justify-self:start">
+          <button id="prev-btn" type="button" class="wiz-btn wiz-btn-prev" style="visibility:hidden">← Anterior</button>
+        </div>
+        <div id="step-dots" style="display:flex;gap:8px"></div>
+        <div style="justify-self:end">
+          <button id="next-btn" type="button" class="wiz-btn" style="color:#0A0A0B">Siguiente →</button>
+        </div>
+      </div>
+
+    </form>
+  </main>
+
+  <footer style="text-align:center;padding:30px 16px;font-size:11.5px;color:var(--fg-3);border-top:1px solid var(--bd);margin-top:24px">
+    © 2025 <a href="https://innogyzer.com" style="color:#48B4D8;text-decoration:none">Innogyzer</a> — The AI Sprint Innovation Agency · <a href="mailto:ivan@innogyzer.com" style="color:#48B4D8;text-decoration:none">ivan@innogyzer.com</a>
+  </footer>
+
+</div>
+<script>
+(function(){
+  /* ── DOM refs ─── */
+  var form      = document.getElementById('dform');
+  var alertBox  = document.getElementById('alert-box');
+  var submitBtn = document.getElementById('submit-btn');
+  var prevBtn   = document.getElementById('prev-btn');
+  var nextBtn   = document.getElementById('next-btn');
+  var dotsEl    = document.getElementById('step-dots');
+  var barEl     = document.getElementById('progress-bar');
+  var lblEl     = document.getElementById('progress-label');
+  var fechaEl   = document.getElementById('fecha');
+
+  var COLORS = ['#D8408A','#FCB454','#A8CC18','#48B4D8','#2490CC','#6CC09C'];
+  var NEXT_BG = [
+    'linear-gradient(135deg,#FCB454,#A8CC18)',
+    'linear-gradient(135deg,#A8CC18,#48B4D8)',
+    'linear-gradient(135deg,#48B4D8,#2490CC)',
+    'linear-gradient(135deg,#2490CC,#6CC09C)',
+    'linear-gradient(135deg,#6CC09C,#A8CC18)'
+  ];
+
+  var steps = [].slice.call(document.querySelectorAll('[data-section]'));
+  var total = steps.length;
+  var cur   = 0;
+
+  /* ── Build progress bar ─── */
+  COLORS.forEach(function(c, i) {
+    var seg = document.createElement('div');
+    seg.id = 'seg-' + i;
+    seg.style.cssText = 'flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,.10);transition:background .35s ease,box-shadow .35s ease';
+    barEl.appendChild(seg);
+  });
+
+  /* ── Build step dots ─── */
+  COLORS.forEach(function(c, i) {
+    var dot = document.createElement('button');
+    dot.type = 'button';
+    dot.id = 'dot-' + i;
+    dot.setAttribute('aria-label', 'Ir al paso ' + (i + 1));
+    dot.style.cssText = 'width:8px;height:8px;border-radius:50%;border:none;padding:0;cursor:pointer;transition:all .25s ease;background:rgba(255,255,255,.15)';
+    dot.addEventListener('click', function() { if (i < cur) goTo(i); });
+    dotsEl.appendChild(dot);
+  });
+
+  /* ── Default date ─── */
+  if (fechaEl) {
+    var _d = new Date();
+    fechaEl.value = _d.getFullYear() + '-' +
+      String(_d.getMonth() + 1).padStart(2, '0') + '-' +
+      String(_d.getDate()).padStart(2, '0');
+  }
+
+  /* ── Wizard core ─── */
+  function updateUI() {
+    steps.forEach(function(sec, i) {
+      if (i === cur) {
+        sec.style.display = 'block';
+        sec.style.animation = 'fadeUp .38s cubic-bezier(.22,1,.36,1) both';
+      } else {
+        sec.style.display = 'none';
+        sec.style.animation = '';
+      }
+    });
+    COLORS.forEach(function(c, i) {
+      var seg = document.getElementById('seg-' + i);
+      if (!seg) return;
+      if (i <= cur) {
+        seg.style.background = c;
+        seg.style.boxShadow = i === cur ? '0 0 10px ' + c + '88' : 'none';
+      } else {
+        seg.style.background = 'rgba(255,255,255,.10)';
+        seg.style.boxShadow = 'none';
+      }
+    });
+    COLORS.forEach(function(c, i) {
+      var dot = document.getElementById('dot-' + i);
+      if (!dot) return;
+      if (i === cur) {
+        dot.style.cssText = 'width:22px;height:8px;border-radius:4px;border:none;padding:0;cursor:pointer;transition:all .25s ease;background:' + c + ';box-shadow:0 0 8px ' + c + '88;opacity:1';
+      } else if (i < cur) {
+        dot.style.cssText = 'width:8px;height:8px;border-radius:50%;border:none;padding:0;cursor:pointer;transition:all .25s ease;background:' + c + ';box-shadow:none;opacity:.7';
+      } else {
+        dot.style.cssText = 'width:8px;height:8px;border-radius:50%;border:none;padding:0;cursor:pointer;transition:all .25s ease;background:rgba(255,255,255,.15);box-shadow:none;opacity:1';
+      }
+    });
+    if (lblEl) {
+      var pct = Math.round(((cur + 1) / total) * 100);
+      lblEl.textContent = 'Paso ' + (cur + 1) + ' / ' + total + '  ·  ' + pct + '%';
+      lblEl.setAttribute('aria-valuenow', String(pct));
+    }
+    prevBtn.style.visibility = cur > 0 ? 'visible' : 'hidden';
+    if (cur < total - 1) {
+      nextBtn.style.visibility = 'visible';
+      nextBtn.style.background = NEXT_BG[cur] || 'linear-gradient(135deg,#48B4D8,#6CC09C)';
+      nextBtn.style.boxShadow = '0 0 22px rgba(72,180,216,.35)';
+    } else {
+      nextBtn.style.visibility = 'hidden';
+    }
+  }
+
+  function goTo(n) {
+    cur = n;
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    hideAlert();
+  }
+
+  prevBtn.onclick = function() { if (cur > 0) goTo(cur - 1); };
+  nextBtn.onclick = function() { if (cur < total - 1) goTo(cur + 1); };
+
+  /* ── Field validation ─── */
+  var FIELD_MSGS = {
+    empresa: 'Escribe el nombre de tu empresa.',
+    nombre:  'Escribe tu nombre y cargo.',
+    email:   'Ingresa un correo electrónico válido (ej. tu@empresa.com).'
+  };
+
+  function setFldError(id, msg) {
+    var el = form.querySelector('#' + id);
+    if (!el) return;
+    el.style.borderColor = '#E5484D';
+    el.style.boxShadow = '0 0 0 3px rgba(229,72,77,.18)';
+    el.setAttribute('aria-invalid', 'true');
+    var e = document.getElementById(id + '-err');
+    if (!e) {
+      e = document.createElement('p');
+      e.id = id + '-err';
+      e.setAttribute('aria-live', 'polite');
+      e.style.cssText = 'margin:5px 0 0;font-size:11px;color:#f0a6a4;font-weight:500;line-height:1.4';
+      el.insertAdjacentElement('afterend', e);
+    }
+    e.textContent = '⚠ ' + msg;
+  }
+
+  function clearFldError(id) {
+    var el = form.querySelector('#' + id);
+    if (!el) return;
+    el.style.borderColor = ''; el.style.boxShadow = '';
+    el.removeAttribute('aria-invalid');
+    var e = document.getElementById(id + '-err');
+    if (e) e.textContent = '';
+  }
+
+  function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
+
+  Object.keys(FIELD_MSGS).forEach(function(id) {
+    var el = form.querySelector('#' + id);
+    if (!el) return;
+    el.setAttribute('aria-required', 'true');
+    el.addEventListener('blur', function() {
+      var v = el.value.trim();
+      (id === 'email' ? (!v || !isValidEmail(v)) : !v) ? setFldError(id, FIELD_MSGS[id]) : clearFldError(id);
+    });
+    el.addEventListener('input', function() {
+      if (el.getAttribute('aria-invalid') !== 'true') return;
+      var v = el.value.trim();
+      if (id === 'email' ? (v && isValidEmail(v)) : !!v) clearFldError(id);
+    });
+  });
+
+  function validateStep1() {
+    var ok = true;
+    Object.keys(FIELD_MSGS).forEach(function(id) {
+      var el = form.querySelector('#' + id);
+      var v = el.value.trim();
+      if (id === 'email') {
+        if (!v || !isValidEmail(v)) { setFldError(id, FIELD_MSGS[id]); ok = false; } else clearFldError(id);
+      } else {
+        if (!v) { setFldError(id, FIELD_MSGS[id]); ok = false; } else clearFldError(id);
+      }
+    });
+    return ok;
+  }
+
+  /* ── Checkbox limit: problemas max 3 ─── */
+  form.addEventListener('change', function(e) {
+    if (e.target && e.target.name === 'problemas[]') {
+      var checked = form.querySelectorAll('input[name="problemas[]"]:checked');
+      var counter = document.getElementById('problemas-counter');
+      if (counter) {
+        counter.textContent = checked.length + '/3';
+        counter.setAttribute('aria-label', checked.length + ' de 3 problemas seleccionados');
+        counter.style.color = checked.length >= 3 ? '#A8CC18' : 'var(--fg-3)';
+      }
+      if (checked.length > 3) e.target.checked = false;
+    }
+  });
+
+  /* ── Alerts ─── */
+  function showAlert(type, text, isHtml) {
+    var ok = type === 'success';
+    alertBox.style.cssText = 'display:block;border-radius:12px;padding:14px 18px;font-size:13px;line-height:1.55;margin-bottom:18px;background:' +
+      (ok ? 'rgba(91,192,122,.10)' : 'rgba(229,72,77,.10)') +
+      ';border:1px solid ' + (ok ? 'rgba(91,192,122,.4)' : 'rgba(229,72,77,.4)') +
+      ';color:' + (ok ? '#9be3b0' : '#f0a6a4');
+    if (isHtml) { alertBox.innerHTML = text; } else { alertBox.textContent = text; }
+    alertBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  function hideAlert() { if (alertBox) { alertBox.style.display = 'none'; alertBox.innerHTML = ''; } }
+
+  /* ── Submit ─── */
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    if (!validateStep1()) {
+      goTo(0);
+      showAlert('error', 'Por favor completa los campos requeridos: Empresa, Nombre y Correo.', false);
+      return;
+    }
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<svg class="spin-svg" width="16" height="16" viewBox="0 0 38 38" stroke="currentColor" aria-hidden="true"><g fill="none"><circle stroke-opacity=".3" cx="19" cy="19" r="18" stroke-width="3"/><path d="M37 19C37 9.06 28.94 1 19 1" stroke-width="3"/></g></svg>Enviando…';
+    try {
+      var fd = new FormData(form);
+      var res = await fetch('submit.php', { method: 'POST', body: fd });
+      var json = await res.json();
+      if (json.success) {
+        showAlert('success', '<strong>✅ ¡Listo, lo recibimos!</strong> Ivan del equipo Innogyzer te escribirá por correo (y por WhatsApp si lo compartiste) antes de mañana para agendar tu sesión de diagnóstico.', true);
+        submitBtn.classList.add('sent');
+        submitBtn.textContent = 'Enviado ✓';
+        try { localStorage.setItem('innogyzer_sent', '1'); } catch(x) {}
+        form.reset();
+        if (fechaEl) {
+          var _d2 = new Date();
+          fechaEl.value = _d2.getFullYear() + '-' +
+            String(_d2.getMonth() + 1).padStart(2, '0') + '-' +
+            String(_d2.getDate()).padStart(2, '0');
+        }
+        var counter2 = document.getElementById('problemas-counter');
+        if (counter2) { counter2.textContent = '0/3'; counter2.style.color = 'var(--fg-3)'; }
+        goTo(0);
+      } else {
+        throw new Error(json.message || 'Error desconocido');
+      }
+    } catch(err) {
+      showAlert('error', 'Hubo un problema al enviar. Intenta de nuevo o escríbenos a ivan@innogyzer.com', false);
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Quiero mi propuesta personalizada →';
+    }
+  });
+
+  /* ── Init ─── */
+  updateUI();
+})();
+</script>
+</body>
+</html>

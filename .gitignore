@@ -1,0 +1,13 @@
+# Archivos con credenciales — no subir al repositorio
+submit.php
+test_db.php
+Extras/cpanel.pdf
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+*.swp
