@@ -784,7 +784,7 @@ html,body{margin:0;padding:0;background:#0A0A0B}
     submitBtn.innerHTML = '<svg class="spin-svg" width="16" height="16" viewBox="0 0 38 38" stroke="currentColor" aria-hidden="true"><g fill="none"><circle stroke-opacity=".3" cx="19" cy="19" r="18" stroke-width="3"/><path d="M37 19C37 9.06 28.94 1 19 1" stroke-width="3"/></g></svg>Enviando…';
     try {
       var fd = new FormData(form);
-      var res = await fetch('https://innogyzer.com/submit.php', { method: 'POST', body: fd });
+      var res = await fetch('https://api.innogyzer.com/submit.php', { method: 'POST', body: fd });
       var json = await res.json();
       if (json.success) {
         showAlert('success', '<strong>✅ ¡Listo, lo recibimos!</strong> Ivan del equipo Innogyzer te escribirá por correo (y por WhatsApp si lo compartiste) antes de mañana para agendar tu sesión de diagnóstico.', true);
